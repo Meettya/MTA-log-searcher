@@ -173,10 +173,9 @@ return ("$month$day$date_time[1]");
 
 sub error {
 (my $text = <<EOF) =~ s/^\s+//gm;
-	Not enough ARG!
-	Script call as
+	Not enough ARG! Script call as
 	mta_log.pl [START]/[END] MESSAGE-ID|ADDRESS FILE.LOG
-	~ where START and END optional time (at the least slash sign '/' needed)
+	~ where START and END optional time
 	time format [[[[[cc]yy]mm]dd]T[hh[mm[ss]]]]
 	~ where MESSAGE-ID|ADDRESS is MESSAGE-ID or "from" or "to" ADDRESS
 	~ where FILE.LOG is name of MTA file log
