@@ -1,0 +1,145 @@
+<?xml version="1.0" ?>
+<!DOCTYPE html PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN" "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+<html xmlns="http://www.w3.org/1999/xhtml">
+<head>
+<title>MTA log searcher</title>
+<meta http-equiv="content-type" content="text/html; charset=utf-8" />
+<link rev="made" href="mailto:root@omen.apple.com" />
+</head>
+
+<body style="background-color: white">
+
+<p><a name="__index__"></a></p>
+<!-- INDEX BEGIN -->
+
+<ul>
+
+	<li><a href="#name">NAME</a></li>
+	<li><a href="#version">VERSION</a></li>
+	<li><a href="#synopsis">SYNOPSIS</a></li>
+	<li><a href="#description">DESCRIPTION</a></li>
+	<li><a href="#autor">AUTOR</a></li>
+	<li><a href="#bugs">BUGS</a></li>
+	<li><a href="#see_also">SEE ALSO</a></li>
+	<li><a href="#changelog">CHANGELOG</a></li>
+	<li><a href="#copyright">COPYRIGHT</a></li>
+</ul>
+<!-- INDEX END -->
+
+<hr />
+<p>
+</p>
+<hr />
+<h1><a name="name">NAME</a></h1>
+<p>MTA log searcher.</p>
+<p>
+</p>
+<hr />
+<h1><a name="version">VERSION</a></h1>
+<p><strong>$VERSION 0.4.1</strong></p>
+<p>
+</p>
+<hr />
+<h1><a name="synopsis">SYNOPSIS</a></h1>
+<p>Данный скрипт предназначен для поиска в логах MTA вхождения информации о обработке письма, заданного параметрами <strong>MESSAGE-ID|ADDRESS</strong> в временном промежутке <strong>START/END</strong> (любое время или оба опция) по идентификатору MTA ID.</p>
+<p>Вызывается с аргументами - [[START]/[END]] MESSAGE-ID|ADDRESS FILELOG
+</p>
+<pre>
+
+        ./mtalog [START]/[END] MESSAGE-ID|ADDRESS FILELOG</pre>
+<pre>
+
+        ./mtalog 0426T/0427T101231 ya@ya.ru maillog.log
+        ./mtalog /0824T ya@ya.ru maillog.log
+        ./mtalog ya@ya.ru maillog.log</pre>
+<p>
+</p>
+<hr />
+<h1><a name="description">DESCRIPTION</a></h1>
+<p>Скрипт может отслеживать обработку определенного письма внутри MTA
+по сообщениям в log файле. Скрипту передается временной интервал,
+в котором надо искать сообщения, и, либо message-id сообщения,
+либо адрес from или to сообщения. Скрипт должен определить
+уникальный ID первого сообщения, присвоенный ему MTA и вывести ВСЕ
+записи из лог файла в заданном временном промежутке, относящиеся к
+данному ID. В случае, когда указан адрес from или to сообщения, и
+в указанном промежутке времени есть несколько сообщений с
+заданными адресами, нужно выводить записи из лог файла, только для
+первого сообщения.</p>
+<p>Скрипт может быть вызван как:</p>
+<pre>
+        mtalog [START]/[END] MESSAGE-ID|ADDRESS FILELOG</pre>
+<p>START и END - это соотвественно начальное и конечное время, внутри
+которого требуется производить обработку. Время задается в ISO
+8601 restricted time format (см. прим. 1).</p>
+<p>MESSAGE-ID - это ID сообщения.</p>
+<p>ADDRESS - это from или to email адрес</p>
+<p>FILE.LOG - имя файла, в котором осуществляем поиск</p>
+<p>Последовательность перечисления аргументов вызова - любая, время - опционально, в этом случае поиск ведется от начала до завтрашней полночи.</p>
+<p>
+</p>
+<hr />
+<h1><a name="autor">AUTOR</a></h1>
+<p>Meettya &lt;<em><a href="mailto:meettya@gmail.com">meettya@gmail.com</a></em>&gt;</p>
+<p>
+</p>
+<hr />
+<h1><a name="bugs">BUGS</a></h1>
+<p>1. Не учтен переход через Новый Год 1231T235959 -&gt; 0101T000000 ни в логе ни при вызове скрипта</p>
+<p>2. Не реализован интерфейс с ключами аргументов для однозначной интерпретации аргументов вызова, его заменяет синтаксический разбор.</p>
+<p>
+</p>
+<hr />
+<h1><a name="see_also">SEE ALSO</a></h1>
+<p>Примечание 1.
+</p>
+<pre>
+
+    ISO 8601 restricted time format</pre>
+<pre>
+
+    The lead-in character for a restricted ISO 8601 time is an
+    `@'-sign.  The particular format of the time in restricted ISO
+    8601 is: [[[[[cc]yy]mm]dd][T[hh[mm[ss]]]]].  Optional date fields
+    default to the appropriate component of the current date; option-
+    al time fields default to midnight; hence if today is January 22,
+    1999, the following date specifications are all equivalent:</pre>
+<pre>
+
+    `19990122T000000'
+    `990122T000000'
+    `0122T000000'
+    `22T000000'
+    `T000000'
+    `T0000'
+    `T00'
+    `22T'
+    `T'
+    `'</pre>
+<p>
+</p>
+<hr />
+<h1><a name="changelog">CHANGELOG</a></h1>
+<p>VERSION 0.4.1 - добавлен парсер входных параметров, можно указывать БЕЗ даты вообще или только начало или только конец времени. Указание параметров - в любой последовательности.
+
+</p>
+<p>VERSION 0.3.1 - добавлено автодополнение даты, дату можно указать пустым слешом '/' что означает от начала файла до ЗАВТРА. Этого вполне хватит для поиска по всему файлу.
+
+</p>
+<p>VERSION 0.2.1 - добавлен ``грязный'' индекс для ускорения поиска начала временной границы
+
+</p>
+<p>VERSION 0.1.1 - поиск возможных совпадений до момента определения MTA_ID вынесен в отдельный поток для ускорения процесса.
+
+</p>
+<p>
+</p>
+<hr />
+<h1><a name="copyright">COPYRIGHT</a></h1>
+<p><strong>Moscow</strong>, fall 2009.
+
+</p>
+
+</body>
+
+</html>
